@@ -20,42 +20,56 @@ const AuthForm = () => {
      const password=passwordRef.current.value;
 
      setIsLoading(true)
+ 
+     let url;
 
      if(isLogin){
       //while login
+      url="https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyD830lnvIXqWEN1LgVTqFGZgHivafbb1AU"
      }else{
       //while signup
+      url="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD830lnvIXqWEN1LgVTqFGZgHivafbb1AU"
+    }
+    
+          fetch(url,{
+            method:"POST",
+            body:JSON.stringify({
+              email:email,
+              password:password,
+              returnSecureToken:true
+            }),
+            headers:{
+              "Content-Type": "application/json"
+            }
+    
+          }).then((response)=>{
+            setIsLoading(false)
+            if(response.ok){
+              //success then
+             return response.json()
+            }
 
-      fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyD830lnvIXqWEN1LgVTqFGZgHivafbb1AU",{
-        method:"POST",
-        body:JSON.stringify({
-          email:email,
-          password:password,
-          returnSecureToken:true
-        }),
-        headers:{
-          "Content-Type": "application/json"
-        }
+            else{
+              //if failed then 
+             return response.json().then((data)=>{
+                console.log(data)
+                let errorMessage="Authentication-Failed"
+    
+                // alert(errorMessage)
 
-      }).then((response)=>{
-        setIsLoading(false)
-        if(response.ok){
-          //success then
-        }
-        else{
-          //if failed then 
-          response.json().then((data)=>{
-            let errorMessage="Authentication-Failed"
-
-            alert(errorMessage)
-
-            
-            
+                throw new Error(errorMessage)
+    
+                
+                
+              })
+    
+            }
+          }).then(data=>{
+            //in success case
+            console.log(data)
+          }).catch((error)=>{
+            alert(error.message)
           })
-
-        }
-      })
-     }
   }
 
   return (
