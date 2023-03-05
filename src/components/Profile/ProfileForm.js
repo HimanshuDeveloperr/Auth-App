@@ -1,4 +1,5 @@
 import { useContext, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import AuthContext from '../../store/AuthContext';
 import classes from './ProfileForm.module.css';
 
@@ -6,6 +7,7 @@ const ProfileForm = () => {
   
   const passwordRef=useRef("")
   const context=useContext(AuthContext)
+ const History= useHistory()
 
   const submitHandler=(event)=>{
    event.preventDefault();
@@ -24,6 +26,8 @@ const ProfileForm = () => {
     }
    }).then((response)=>{
     console.log(response.status)
+    alert("password change successfully")
+    History.replace("/auth")
    })
   }
 
