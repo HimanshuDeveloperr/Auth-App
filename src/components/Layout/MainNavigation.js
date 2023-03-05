@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AuthContext from '../../store/AuthContext';
 
 import classes from './MainNavigation.module.css';
@@ -7,6 +7,13 @@ import classes from './MainNavigation.module.css';
 const MainNavigation = () => {
 
   const context=useContext(AuthContext)
+  const History=useHistory()
+
+  const BtnHandler=()=>{
+    context.logout()
+    History.replace("/auth")
+
+  }
 
   const isLoggedIn=context.isLoggedIn
   return (
@@ -29,7 +36,7 @@ const MainNavigation = () => {
           
           {isLoggedIn && 
           <li>
-            <button>Logout</button>
+            <button onClick={BtnHandler}>Logout</button>
           </li>
           }
         </ul>
