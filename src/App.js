@@ -23,12 +23,13 @@ function App() {
           <AuthPage />
         </Route>
         }
+          <Route path='/profile'>
         {
           context.isLoggedIn &&
-        <Route path='/profile'>
           <UserProfile />
-        </Route>
         }
+        {!context.isLoggedIn && <Redirect to="/auth"/>}
+        </Route>
         <Route path="*">
           <Redirect to="/"/>
         </Route>
